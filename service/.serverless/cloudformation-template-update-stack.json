@@ -1,0 +1,579 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {
+    "ServerlessDeploymentBucket": {
+      "Type": "AWS::S3::Bucket"
+    },
+    "PutDashserviceLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/revolut-testvideo-put-service"
+      }
+    },
+    "GetDashserviceLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/revolut-testvideo-get-service"
+      }
+    },
+    "PreHookLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/revolut-testvideo-preHook"
+      }
+    },
+    "PostHookLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/revolut-testvideo-postHook"
+      }
+    },
+    "PutDashserviceLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/revolut/testvideo/1545226195024-2018-12-19T13:29:55.024Z/service-1.0-SNAPSHOT.zip"
+        },
+        "FunctionName": "revolut-testvideo-put-service",
+        "Handler": "com.revolut.service.PutService",
+        "MemorySize": 512,
+        "Role": "arn:aws:iam::222237319879:role/ec2full",
+        "Runtime": "java8",
+        "Timeout": 45,
+        "Description": "PutService"
+      },
+      "DependsOn": [
+        "PutDashserviceLogGroup"
+      ]
+    },
+    "PutDashserviceLambdaVersionNSv5w4CUppZFxmbR2k3ewCQVup7ZALqGgeq4qPKKo": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PutDashserviceLambdaFunction"
+        },
+        "CodeSha256": "gdn15LFtB6N4YiDRusz3Bd85kEfDJGrspTg3SZAAsxE=",
+        "Description": "PutService"
+      }
+    },
+    "GetDashserviceLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/revolut/testvideo/1545226195024-2018-12-19T13:29:55.024Z/service-1.0-SNAPSHOT.zip"
+        },
+        "FunctionName": "revolut-testvideo-get-service",
+        "Handler": "com.revolut.service.GetService",
+        "MemorySize": 512,
+        "Role": "arn:aws:iam::222237319879:role/ec2full",
+        "Runtime": "java8",
+        "Timeout": 45,
+        "Description": "GetService"
+      },
+      "DependsOn": [
+        "GetDashserviceLogGroup"
+      ]
+    },
+    "GetDashserviceLambdaVersionzEXmJ7AvQTM4RluTklTEcrjBURofJjPbDz7UrzX6ns": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetDashserviceLambdaFunction"
+        },
+        "CodeSha256": "gdn15LFtB6N4YiDRusz3Bd85kEfDJGrspTg3SZAAsxE=",
+        "Description": "GetService"
+      }
+    },
+    "PreHookLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/revolut/testvideo/1545226195024-2018-12-19T13:29:55.024Z/service-1.0-SNAPSHOT.zip"
+        },
+        "FunctionName": "revolut-testvideo-preHook",
+        "Handler": "hooks.pre",
+        "MemorySize": 512,
+        "Role": "arn:aws:iam::222237319879:role/ec2full",
+        "Runtime": "java8",
+        "Timeout": 45
+      },
+      "DependsOn": [
+        "PreHookLogGroup"
+      ]
+    },
+    "PreHookLambdaVersion3kIzdVP3zkOLWBU4PV6YBOPFj7fdt03qZ6KOQJoaEY": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PreHookLambdaFunction"
+        },
+        "CodeSha256": "gdn15LFtB6N4YiDRusz3Bd85kEfDJGrspTg3SZAAsxE="
+      }
+    },
+    "PostHookLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/revolut/testvideo/1545226195024-2018-12-19T13:29:55.024Z/service-1.0-SNAPSHOT.zip"
+        },
+        "FunctionName": "revolut-testvideo-postHook",
+        "Handler": "hooks.post",
+        "MemorySize": 512,
+        "Role": "arn:aws:iam::222237319879:role/ec2full",
+        "Runtime": "java8",
+        "Timeout": 45
+      },
+      "DependsOn": [
+        "PostHookLogGroup"
+      ]
+    },
+    "PostHookLambdaVersionUvBj6s04mGSGjhxHH9cKaTruBkbnq6U0KK56E1f4k": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PostHookLambdaFunction"
+        },
+        "CodeSha256": "gdn15LFtB6N4YiDRusz3Bd85kEfDJGrspTg3SZAAsxE="
+      }
+    },
+    "ApiGatewayRestApi": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "Name": "testvideo-revolut",
+        "EndpointConfiguration": {
+          "Types": [
+            "EDGE"
+          ]
+        }
+      }
+    },
+    "ApiGatewayResourceHello": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "hello",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceHelloNameVar": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceHello"
+        },
+        "PathPart": "{name}",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodHelloNameVarPut": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "PUT",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceHelloNameVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Ref": "PutDashserviceLambdaFunctionAliasLive"
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayMethodHelloNameVarGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceHelloNameVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Ref": "GetDashserviceLambdaFunctionAliasLive"
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1545226195243": {
+      "Type": "AWS::ApiGateway::Deployment",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "StageName": "testvideo"
+      },
+      "DependsOn": [
+        "ApiGatewayMethodHelloNameVarPut",
+        "ApiGatewayMethodHelloNameVarGet"
+      ]
+    },
+    "PutDashserviceLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PutDashserviceLambdaFunctionAliasLive"
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": {
+          "Fn::Join": [
+            "",
+            [
+              "apigateway.",
+              {
+                "Ref": "AWS::URLSuffix"
+              }
+            ]
+          ]
+        },
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "GetDashserviceLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetDashserviceLambdaFunctionAliasLive"
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": {
+          "Fn::Join": [
+            "",
+            [
+              "apigateway.",
+              {
+                "Ref": "AWS::URLSuffix"
+              }
+            ]
+          ]
+        },
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "RevoluttestvideoDeploymentApplication": {
+      "Type": "AWS::CodeDeploy::Application",
+      "Properties": {
+        "ComputePlatform": "Lambda"
+      }
+    },
+    "CodeDeployServiceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRoleForLambda",
+          "arn:aws:iam::aws:policy/AWSLambdaFullAccess"
+        ],
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "codedeploy.amazonaws.com"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "PutDashserviceLambdaFunctionDeploymentGroup": {
+      "Type": "AWS::CodeDeploy::DeploymentGroup",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "RevoluttestvideoDeploymentApplication"
+        },
+        "AutoRollbackConfiguration": {
+          "Enabled": true,
+          "Events": [
+            "DEPLOYMENT_FAILURE",
+            "DEPLOYMENT_STOP_ON_ALARM",
+            "DEPLOYMENT_STOP_ON_REQUEST"
+          ]
+        },
+        "DeploymentConfigName": {
+          "Fn::Sub": [
+            "CodeDeployDefault.Lambda${ConfigName}",
+            {
+              "ConfigName": "Canary10Percent5Minutes"
+            }
+          ]
+        },
+        "DeploymentStyle": {
+          "DeploymentType": "BLUE_GREEN",
+          "DeploymentOption": "WITH_TRAFFIC_CONTROL"
+        },
+        "ServiceRoleArn": {
+          "Fn::GetAtt": [
+            "CodeDeployServiceRole",
+            "Arn"
+          ]
+        }
+      }
+    },
+    "PutDashserviceLambdaFunctionAliasLive": {
+      "Type": "AWS::Lambda::Alias",
+      "Properties": {
+        "FunctionVersion": {
+          "Fn::GetAtt": [
+            "PutDashserviceLambdaVersionNSv5w4CUppZFxmbR2k3ewCQVup7ZALqGgeq4qPKKo",
+            "Version"
+          ]
+        },
+        "FunctionName": {
+          "Ref": "PutDashserviceLambdaFunction"
+        },
+        "Name": "Live"
+      },
+      "UpdatePolicy": {
+        "CodeDeployLambdaAliasUpdate": {
+          "ApplicationName": {
+            "Ref": "RevoluttestvideoDeploymentApplication"
+          },
+          "AfterAllowTrafficHook": {
+            "Ref": "PostHookLambdaFunction"
+          },
+          "BeforeAllowTrafficHook": {
+            "Ref": "PreHookLambdaFunction"
+          },
+          "DeploymentGroupName": {
+            "Ref": "PutDashserviceLambdaFunctionDeploymentGroup"
+          }
+        }
+      }
+    },
+    "GetDashserviceLambdaFunctionDeploymentGroup": {
+      "Type": "AWS::CodeDeploy::DeploymentGroup",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "RevoluttestvideoDeploymentApplication"
+        },
+        "AutoRollbackConfiguration": {
+          "Enabled": true,
+          "Events": [
+            "DEPLOYMENT_FAILURE",
+            "DEPLOYMENT_STOP_ON_ALARM",
+            "DEPLOYMENT_STOP_ON_REQUEST"
+          ]
+        },
+        "DeploymentConfigName": {
+          "Fn::Sub": [
+            "CodeDeployDefault.Lambda${ConfigName}",
+            {
+              "ConfigName": "Canary10Percent5Minutes"
+            }
+          ]
+        },
+        "DeploymentStyle": {
+          "DeploymentType": "BLUE_GREEN",
+          "DeploymentOption": "WITH_TRAFFIC_CONTROL"
+        },
+        "ServiceRoleArn": {
+          "Fn::GetAtt": [
+            "CodeDeployServiceRole",
+            "Arn"
+          ]
+        }
+      }
+    },
+    "GetDashserviceLambdaFunctionAliasLive": {
+      "Type": "AWS::Lambda::Alias",
+      "Properties": {
+        "FunctionVersion": {
+          "Fn::GetAtt": [
+            "GetDashserviceLambdaVersionzEXmJ7AvQTM4RluTklTEcrjBURofJjPbDz7UrzX6ns",
+            "Version"
+          ]
+        },
+        "FunctionName": {
+          "Ref": "GetDashserviceLambdaFunction"
+        },
+        "Name": "Live"
+      },
+      "UpdatePolicy": {
+        "CodeDeployLambdaAliasUpdate": {
+          "ApplicationName": {
+            "Ref": "RevoluttestvideoDeploymentApplication"
+          },
+          "AfterAllowTrafficHook": {
+            "Ref": "PostHookLambdaFunction"
+          },
+          "BeforeAllowTrafficHook": {
+            "Ref": "PreHookLambdaFunction"
+          },
+          "DeploymentGroupName": {
+            "Ref": "GetDashserviceLambdaFunctionDeploymentGroup"
+          }
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": {
+        "Ref": "ServerlessDeploymentBucket"
+      }
+    },
+    "PutDashserviceLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PutDashserviceLambdaVersionNSv5w4CUppZFxmbR2k3ewCQVup7ZALqGgeq4qPKKo"
+      }
+    },
+    "GetDashserviceLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetDashserviceLambdaVersionzEXmJ7AvQTM4RluTklTEcrjBURofJjPbDz7UrzX6ns"
+      }
+    },
+    "PreHookLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PreHookLambdaVersion3kIzdVP3zkOLWBU4PV6YBOPFj7fdt03qZ6KOQJoaEY"
+      }
+    },
+    "PostHookLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PostHookLambdaVersionUvBj6s04mGSGjhxHH9cKaTruBkbnq6U0KK56E1f4k"
+      }
+    },
+    "ServiceEndpoint": {
+      "Description": "URL of the service endpoint",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "ApiGatewayRestApi"
+            },
+            ".execute-api.us-west-1.",
+            {
+              "Ref": "AWS::URLSuffix"
+            },
+            "/testvideo"
+          ]
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+service: revolut
+
+provider:
+  name: aws
+  role: arn:aws:iam::xxx:role/xx
+  runtime: java8
+  stage: testvideo
+  region: us-west-1
+  profile: default
+  timeout: 45
+  memorySize: 512
+environment:
+  "SLS_DEBUG=*"
+package:
+  artifact: build/distributions/service-1.0-SNAPSHOT.zip
+
+plugins:
+  - serverless-plugin-canary-deployments
+
+functions:
+  put-service:
+    handler: com.revolut.service.PutService
+    description: PutService
+    events:
+    - http:
+        path: hello/{name}
+        method: put
+    deploymentSettings:
+      type: Canary10Percent5Minutes
+      alias: Live
+      preTrafficHook: preHook
+      postTrafficHook: postHook
+
+  get-service:
+    handler: com.revolut.service.GetService
+    description: GetService
+    events:
+      - http:
+            path: hello/{name}
+            method: get
+    deploymentSettings:
+     # type: Linear10PercentEvery1Minute
+      type: Canary10Percent5Minutes
+      alias: Live
+      preTrafficHook: preHook
+      postTrafficHook: postHook
+
+  preHook:
+    handler: hooks.pre
+  postHook:
+    handler: hooks.post
+
+
